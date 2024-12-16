@@ -1,7 +1,9 @@
 import express from 'express';
 
+import env from '@/config/env';
+
 const app = express();
 
-app.listen(3000, () => {
-	console.log('Server started');
+app.listen(env.PORT, () => {
+	console.log(`Server is running on port ${env.PORT} in ${env.NODE_ENV} mode`);
 });
