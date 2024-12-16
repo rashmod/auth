@@ -1,0 +1,39 @@
+{
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": { "project": "./tsconfig.json" },
+	"extends": [
+		"eslint:recommended",
+		"airbnb-base",
+		"airbnb-typescript/base",
+		"plugin:@typescript-eslint/recommended",
+		"prettier"
+	],
+	"rules": {
+		"linebreak-style": ["warn", "windows"],
+		"@typescript-eslint/no-unused-vars": [
+			"warn",
+			{
+				"args": "all",
+				"argsIgnorePattern": "^_",
+				"caughtErrors": "all",
+				"caughtErrorsIgnorePattern": "^_",
+				"destructuredArrayIgnorePattern": "^_",
+				"varsIgnorePattern": "^_",
+				"ignoreRestSiblings": true
+			}
+		],
+		"class-methods-use-this": "off",
+		"@typescript-eslint/lines-between-class-members": [
+			"warn",
+			{
+				"enforce": [
+					{ "blankLine": "always", "prev": "method", "next": "method" },
+					{ "blankLine": "always", "prev": "field", "next": "method" }
+				]
+			}
+		],
+		"arrow-body-style": ["warn", "as-needed"],
+		"func-style": ["warn", "declaration"],
+		"no-plusplus": "warn"
+	}
+}
