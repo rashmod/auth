@@ -24,11 +24,13 @@ export default class AuthController {
 
 		const user = await prisma.user.findUnique({ where: { email } });
 		if (!user) {
-			return res.status(StatusCodes.NOT_FOUND).json({ message: 'User not found' });
+			res.status(StatusCodes.NOT_FOUND).json({ message: 'User not found' });
+			return;
 		}
 
 		if (user.password !== password) {
-			return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid password' });
+			res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid password' });
+			return;
 		}
 
 		const { accessToken, refreshToken } = AuthService.signTokens(user.id);
@@ -47,17 +49,20 @@ export default class AuthController {
 	public refresh = async (req: Request, res: Response) => {
 		const refreshToken: string | undefined = req.cookies['refresh-token'];
 		if (!refreshToken) {
-			return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Unauthorized' });
+			res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Unauthorized' });
+			return;
 		}
 
 		const { id } = AuthService.verifyToken(refreshToken, 'refresh') as { id?: string };
 		if (!id) {
-			return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Unauthorized' });
+			res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Unauthorized' });
+			return;
 		}
 
 		const user = await prisma.user.findUnique({ where: { id } });
 		if (!user) {
-			return res.status(StatusCodes.NOT_FOUND).json({ message: 'User not found' });
+			res.status(StatusCodes.NOT_FOUND).json({ message: 'User not found' });
+			return;
 		}
 
 		const { accessToken, refreshToken: newRefreshToken } = AuthService.signTokens(user.id);
