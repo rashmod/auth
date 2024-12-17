@@ -17,8 +17,19 @@ export default class AuthController {
 		res.status(201).json({ data: user });
 	};
 
-	public login = (_req: Request, res: Response) => {
-		res.status(200).json({ message: 'Hello World' });
+	public login = async (req: Request, res: Response) => {
+		const { email, password }: { email: string; password: string } = req.body;
+
+		const user = await prisma.user.findUnique({ where: { email } });
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		if (user.password !== password) {
+			return res.status(401).json({ message: 'Invalid password' });
+		}
+
+		res.status(200).json({ data: user });
 	};
 
 	public logout = (_req: Request, res: Response) => {
