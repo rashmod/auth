@@ -21,8 +21,7 @@ export default class AuthService {
 		};
 	}
 
-	static verifyToken(token: string | undefined, tokenType: 'access' | 'refresh') {
-		if (!token) return false;
+	static verifyToken(token: string, tokenType: 'access' | 'refresh') {
 		if (tokenType === 'refresh') {
 			return verify(token, env.JWT_REFRESH_SECRET);
 		}
