@@ -39,6 +39,8 @@ export default class AuthController {
 	};
 
 	public logout = (_req: Request, res: Response) => {
-		res.status(200).json({ message: 'Hello World' });
+		AuthService.setRefreshCookie(res, '', 'now');
+
+		res.status(StatusCodes.NO_CONTENT).json({});
 	};
 }
