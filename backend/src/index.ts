@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cors({ origin: env.CLIENT_URL, credentials: true }));
 app.use(cookieParser());
 
-app.use('/v1/auth', authRoutes);
+app.use('/api/v1/auth', authRoutes);
 
 app.listen(env.PORT, () => {
 	console.log(`Server is running on port ${env.PORT} in ${env.NODE_ENV} mode`);

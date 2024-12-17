@@ -1,17 +1,15 @@
 import { Router } from 'express';
 
+import AuthController from '@/auth/controller';
+
 const router = Router();
 
-router.post('/register', (_req, res) => {
-	res.status(200).json({ message: 'Hello World' });
-});
+const authController = new AuthController();
 
-router.post('/login', (_req, res) => {
-	res.status(200).json({ message: 'Hello World' });
-});
+router.post('/register', authController.register);
 
-router.post('/logout', (_req, res) => {
-	res.status(200).json({ message: 'Hello World' });
-});
+router.post('/login', authController.login);
+
+router.post('/logout', authController.logout);
 
 export default router;
