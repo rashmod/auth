@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 
+import AuthService from '@/auth/service';
 import { prisma } from '@/db/prisma';
 
 export default class AuthController {
@@ -14,7 +16,7 @@ export default class AuthController {
 			},
 		});
 
-		res.status(201).json({ data: user });
+		res.status(StatusCodes.CREATED).json({ data: user });
 	};
 
 	public login = async (req: Request, res: Response) => {
@@ -22,14 +24,18 @@ export default class AuthController {
 
 		const user = await prisma.user.findUnique({ where: { email } });
 		if (!user) {
-			return res.status(404).json({ message: 'User not found' });
+			return res.status(StatusCodes.NOT_FOUND).json({ message: 'User not found' });
 		}
 
 		if (user.password !== password) {
-			return res.status(401).json({ message: 'Invalid password' });
+			return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid password' });
 		}
 
-		res.status(200).json({ data: user });
+		const { accessToken, refreshToken } = AuthService.signTokens(user.id);
+
+		AuthService.setRefreshCookie(res, refreshToken, 'default');
+
+		res.status(StatusCodes.OK).json({ data: { user, accessToken } });
 	};
 
 	public logout = (_req: Request, res: Response) => {
