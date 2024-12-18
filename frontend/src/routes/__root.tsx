@@ -3,14 +3,12 @@ import { lazy } from 'react';
 
 import { type AuthContext } from '@/auth/auth-context';
 
-const TanStackRouterDevtools =
-	process.env.NODE_ENV === 'production'
-		? () => null
-		: lazy(() =>
-				import('@tanstack/router-devtools').then((res) => ({
-					default: res.TanStackRouterDevtools,
-				}))
-			);
+const TanStackRouterDevtools = import.meta.env.PROD
+	? () => null
+	: lazy(() => import('@tanstack/router-devtools').then((res) => ({ default: res.TanStackRouterDevtools })));
+const ReactQueryDevtools = import.meta.env.PROD
+	? () => null
+	: lazy(() => import('@tanstack/react-query-devtools').then((res) => ({ default: res.ReactQueryDevtools })));
 
 type RouterContext = { auth: AuthContext };
 
@@ -24,6 +22,7 @@ function RootComponent() {
 			<div>Hello "__root"!</div>
 			<Outlet />
 			<TanStackRouterDevtools />
+			<ReactQueryDevtools />
 		</>
 	);
 }

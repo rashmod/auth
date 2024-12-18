@@ -10,7 +10,7 @@ export default function useLogout({
 	setUserId: (userId: string | null) => void;
 }) {
 	return useMutation({
-		mutationFn: (input: Parameters<typeof logout>) => logout(...input),
+		mutationFn: logout,
 		onSuccess: () => {
 			setAccessToken(null);
 			setUserId(null);
