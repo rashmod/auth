@@ -1,5 +1,6 @@
 import { RouterProvider as Router, createRouter } from '@tanstack/react-router';
 
+import useAuth from '@/auth/use-auth';
 import { routeTree } from '@/routeTree.gen';
 
 const router = createRouter({ routeTree, context: { auth: undefined! } });
@@ -11,5 +12,7 @@ declare module '@tanstack/react-router' {
 }
 
 export default function RouterProvider() {
-	return <Router router={router} />;
+	const auth = useAuth();
+
+	return <Router router={router} context={{ auth }} />;
 }
