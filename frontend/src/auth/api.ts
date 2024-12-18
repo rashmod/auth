@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: '/auth', withCredentials: true });
+import env from '@/config/env';
+
+const api = axios.create({ baseURL: `${env.VITE_BACKEND_API_URL}/auth`, withCredentials: true });
 
 export async function register({
 	name,
@@ -32,6 +34,6 @@ export async function logout() {
 }
 
 export async function refresh(): Promise<{ user: { id: string }; accessToken: string }> {
-	const response = await api.post('/refresh-token');
+	const response = await api.get('/refresh-token');
 	return response.data;
 }
