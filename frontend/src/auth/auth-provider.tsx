@@ -29,8 +29,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 	return (
 		<AuthContext.Provider
 			value={{
-				register: register.mutate,
-				login: login.mutate,
+				register: { action: register.mutate, isLoading: register.isPending, isSuccess: register.isSuccess },
+				login: { action: login.mutate, isLoading: login.isPending, isSuccess: login.isSuccess },
 				logout: logout.mutate,
 				session: { isAuthenticated, isLoading, userId },
 			}}

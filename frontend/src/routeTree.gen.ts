@@ -15,6 +15,7 @@ import { Route as RegisterImport } from './routes/register'
 import { Route as LoginImport } from './routes/login'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
+import { Route as AuthUserImport } from './routes/_auth/user'
 
 // Create/Update Routes
 
@@ -39,6 +40,12 @@ const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AuthUserRoute = AuthUserImport.update({
+  id: '/user',
+  path: '/user',
+  getParentRoute: () => AuthRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -73,52 +80,72 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterImport
       parentRoute: typeof rootRoute
     }
+    '/_auth/user': {
+      id: '/_auth/user'
+      path: '/user'
+      fullPath: '/user'
+      preLoaderRoute: typeof AuthUserImport
+      parentRoute: typeof AuthImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface AuthRouteChildren {
+  AuthUserRoute: typeof AuthUserRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthUserRoute: AuthUserRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '': typeof AuthRoute
+  '': typeof AuthRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/user': typeof AuthUserRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '': typeof AuthRoute
+  '': typeof AuthRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/user': typeof AuthUserRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/_auth': typeof AuthRoute
+  '/_auth': typeof AuthRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/_auth/user': typeof AuthUserRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/login' | '/register'
+  fullPaths: '/' | '' | '/login' | '/register' | '/user'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/login' | '/register'
-  id: '__root__' | '/' | '/_auth' | '/login' | '/register'
+  to: '/' | '' | '/login' | '/register' | '/user'
+  id: '__root__' | '/' | '/_auth' | '/login' | '/register' | '/_auth/user'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthRoute: typeof AuthRoute
+  AuthRoute: typeof AuthRouteWithChildren
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthRoute: AuthRoute,
+  AuthRoute: AuthRouteWithChildren,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
 }
@@ -143,13 +170,20 @@ export const routeTree = rootRoute
       "filePath": "index.tsx"
     },
     "/_auth": {
-      "filePath": "_auth.tsx"
+      "filePath": "_auth.tsx",
+      "children": [
+        "/_auth/user"
+      ]
     },
     "/login": {
       "filePath": "login.tsx"
     },
     "/register": {
       "filePath": "register.tsx"
+    },
+    "/_auth/user": {
+      "filePath": "_auth/user.tsx",
+      "parent": "/_auth"
     }
   }
 }

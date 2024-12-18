@@ -3,8 +3,8 @@ import { createContext } from 'react';
 import { login, register } from '@/auth/api';
 
 export type AuthContext = {
-	register: (input: Parameters<typeof register>) => void;
-	login: (input: Parameters<typeof login>) => void;
+	register: { action: (...input: Parameters<typeof register>) => void; isLoading: boolean; isSuccess: boolean };
+	login: { action: (...input: Parameters<typeof login>) => void; isLoading: boolean; isSuccess: boolean };
 	logout: () => void;
 	session: {
 		isAuthenticated: boolean;
