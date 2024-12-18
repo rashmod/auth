@@ -10,7 +10,6 @@ export type AuthContext = {
 		isAuthenticated: boolean;
 		isLoading: boolean;
 		userId: string | null;
-		setAccessToken: (token: string) => void;
 	};
 };
 

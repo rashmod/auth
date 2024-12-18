@@ -5,6 +5,7 @@ import useLogin from '@/auth/hooks/use-login';
 import useLogout from '@/auth/hooks/use-logout';
 import useRefreshToken from '@/auth/hooks/use-refresh-token';
 import useRegister from '@/auth/hooks/use-register';
+import { setupAxiosInterceptor } from '@/lib/setup-axios-interceptor';
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
 	const [userId, setUserId] = useState<string | null>(null);
@@ -19,6 +20,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 	useEffect(() => {
 		refreshToken.mutate();
 		setRefreshing(false);
+		setupAxiosInterceptor(setAccessToken);
 	}, []);
 
 	const isAuthenticated = accessToken !== null;
@@ -30,7 +32,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 				register: register.mutate,
 				login: login.mutate,
 				logout: logout.mutate,
-				session: { isAuthenticated, isLoading, userId, setAccessToken },
+				session: { isAuthenticated, isLoading, userId },
 			}}
 		>
 			{children}
