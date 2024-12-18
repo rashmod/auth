@@ -2,7 +2,7 @@ import { createContext } from 'react';
 
 import { login, logout, register } from '@/auth/api';
 
-type AuthContextType = {
+export type AuthContext = {
 	register: (input: Parameters<typeof register>) => void;
 	login: (input: Parameters<typeof login>) => void;
 	logout: (input: Parameters<typeof logout>) => void;
@@ -14,6 +14,6 @@ type AuthContextType = {
 	};
 };
 
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<AuthContext | null>(null);
 
 export default AuthContext;
