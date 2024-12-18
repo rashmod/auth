@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import AuthContext from '@/auth/auth-context';
 import useLogin from '@/auth/hooks/use-login';
@@ -15,6 +15,11 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 	const login = useLogin({ setAccessToken, setUserId });
 	const logout = useLogout({ setAccessToken, setUserId });
 	const refreshToken = useRefreshToken({ setAccessToken, setUserId });
+
+	useEffect(() => {
+		refreshToken.mutate();
+		setRefreshing(false);
+	}, []);
 
 	const isAuthenticated = accessToken !== null;
 	const isLoading = refreshing || refreshToken.isPending;
