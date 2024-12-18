@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 
 import AuthContext from '@/auth/auth-context';
 import useLogin from '@/auth/hooks/use-login';
@@ -7,10 +7,17 @@ import useRefreshToken from '@/auth/hooks/use-refresh-token';
 import useRegister from '@/auth/hooks/use-register';
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
-	const register = useRegister();
-	const login = useLogin();
-	const logout = useLogout();
-	const refreshToken = useRefreshToken();
+	const [userId, setUserId] = useState<string | null>(null);
+	const [accessToken, setAccessToken] = useState<string | null>(null);
+	const [refreshing, setRefreshing] = useState(true);
+
+	const register = useRegister({ setAccessToken, setUserId });
+	const login = useLogin({ setAccessToken, setUserId });
+	const logout = useLogout({ setAccessToken, setUserId });
+	const refreshToken = useRefreshToken({ setAccessToken, setUserId });
+
+	const isAuthenticated = accessToken !== null;
+	const isLoading = refreshing || refreshToken.isPending;
 
 	return (
 		<AuthContext.Provider
@@ -18,7 +25,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 				register: register.mutate,
 				login: login.mutate,
 				logout: logout.mutate,
-				session: { isAuthenticated: false, isLoading: false, userId: null, setAccessToken: () => {} },
+				session: { isAuthenticated, isLoading, userId, setAccessToken },
 			}}
 		>
 			{children}
