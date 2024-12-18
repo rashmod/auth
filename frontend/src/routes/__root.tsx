@@ -1,7 +1,8 @@
 import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
-import { lazy } from 'react';
+import { Suspense, lazy } from 'react';
 
 import { type AuthContext } from '@/auth/auth-context';
+import Navbar from '@/components/custom/navbar';
 
 const TanStackRouterDevtools = import.meta.env.PROD
 	? () => null
@@ -18,11 +19,15 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 
 function RootComponent() {
 	return (
-		<>
-			<div>Hello "__root"!</div>
-			<Outlet />
-			<TanStackRouterDevtools />
-			<ReactQueryDevtools />
-		</>
+		<div className="grid min-h-[100dvh] grid-rows-[auto_1fr]">
+			<Navbar />
+			<div className="container">
+				<Outlet />
+			</div>
+			<Suspense fallback={null}>
+				<TanStackRouterDevtools />
+				<ReactQueryDevtools />
+			</Suspense>
+		</div>
 	);
 }
