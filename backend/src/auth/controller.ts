@@ -16,7 +16,11 @@ export default class AuthController {
 			},
 		});
 
-		res.status(StatusCodes.CREATED).json({ data: user });
+		const { accessToken, refreshToken } = AuthService.signTokens(user.id);
+
+		AuthService.setRefreshCookie(res, refreshToken, 'default');
+
+		res.status(StatusCodes.CREATED).json({ data: { user, accessToken } });
 	};
 
 	public login = async (req: Request, res: Response) => {
