@@ -14,23 +14,21 @@ export const Route = createFileRoute('/google')({
 });
 
 function RouteComponent() {
-	const navigate = useNavigate();
 	const {
-		session: { setAccessToken, setUserId },
+		refresh,
+		session: { isAuthenticated },
 	} = useAuth();
-	const { id, accessToken } = Route.useSearch();
+	const navigate = useNavigate();
 
 	useEffect(() => {
-		console.log({ accessToken, id });
-		if (!accessToken || !id) {
-			navigate({
-				to: '/login',
-			});
-			return;
+		if (isAuthenticated) {
+			navigate({ to: '/' });
 		}
-		setAccessToken(accessToken);
-		setUserId(id);
-	}, [accessToken, id, navigate]);
+
+		if (!isAuthenticated) {
+			refresh.action();
+		}
+	}, []);
 
 	return null;
 }

@@ -5,6 +5,7 @@ import { login, register } from '@/auth/api';
 export type AuthContext = {
 	register: { action: (...input: Parameters<typeof register>) => void; isLoading: boolean; isSuccess: boolean };
 	login: { action: (...input: Parameters<typeof login>) => void; isLoading: boolean; isSuccess: boolean };
+	refresh: { action: () => void; isLoading: boolean; isSuccess: boolean };
 	logout: () => void;
 	session: {
 		isAuthenticated: boolean;

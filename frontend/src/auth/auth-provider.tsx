@@ -31,6 +31,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 			value={{
 				register: { action: register.mutate, isLoading: register.isPending, isSuccess: register.isSuccess },
 				login: { action: login.mutate, isLoading: login.isPending, isSuccess: login.isSuccess },
+				refresh: { action: refreshToken.mutate, isLoading: refreshToken.isPending, isSuccess: refreshToken.isSuccess },
 				logout: logout.mutate,
 				session: { isAuthenticated, isLoading, userId, setAccessToken, setUserId },
 			}}
