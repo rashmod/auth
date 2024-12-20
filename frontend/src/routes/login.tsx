@@ -35,15 +35,18 @@ type LoginSchema = z.infer<typeof LoginSchema>;
 function Login() {
 	const form = useForm<LoginSchema>({ resolver: zodResolver(LoginSchema), defaultValues });
 
-	const { login } = useAuth();
+	const {
+		login,
+		session: { isAuthenticated },
+	} = useAuth();
 
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (login.isSuccess) {
+		if (isAuthenticated) {
 			navigate({ to: '/user' });
 		}
-	}, [login.isSuccess, navigate]);
+	}, [isAuthenticated, navigate]);
 
 	const onSubmit: SubmitHandler<LoginSchema> = (data) => {
 		login.action(data);
@@ -82,7 +85,7 @@ function Login() {
 											<Link className="ml-auto inline-block text-sm underline">Forgot your password?</Link>
 										</div>
 										<FormControl>
-											<PasswordInput type="password" {...field} />
+											<PasswordInput {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>

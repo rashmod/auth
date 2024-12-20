@@ -44,15 +44,18 @@ type RegisterSchema = z.infer<typeof RegisterSchema>;
 function Register() {
 	const form = useForm<RegisterSchema>({ resolver: zodResolver(RegisterSchema), defaultValues });
 
-	const { register } = useAuth();
+	const {
+		register,
+		session: { isAuthenticated },
+	} = useAuth();
 
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (register.isSuccess) {
+		if (isAuthenticated) {
 			navigate({ to: '/user' });
 		}
-	}, [register.isSuccess, navigate]);
+	}, [isAuthenticated, navigate]);
 
 	const onSubmit: SubmitHandler<RegisterSchema> = (data) => {
 		register.action(data);
