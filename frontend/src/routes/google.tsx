@@ -19,13 +19,17 @@ function RouteComponent() {
 		session: { isAuthenticated },
 	} = useAuth();
 	const navigate = useNavigate();
+	console.log('in google route component');
 
 	useEffect(() => {
+		console.log('in google use effect');
 		if (isAuthenticated) {
+			console.log('in google use effect: navigating to home');
 			navigate({ to: '/' });
 		}
 
 		if (!isAuthenticated) {
+			console.log('in google use effect: triggering refresh');
 			refresh.action();
 		}
 	}, []);
