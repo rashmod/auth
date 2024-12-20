@@ -10,7 +10,7 @@ export default function useLogin({
 	setUserId: (userId: string | null) => void;
 }) {
 	return useMutation({
-		mutationFn: (input: Parameters<typeof login>) => login(...input),
+		mutationFn: (...input: Parameters<typeof login>) => login(...input),
 		onSuccess: (data) => {
 			setAccessToken(data.accessToken);
 			setUserId(data.user.id);

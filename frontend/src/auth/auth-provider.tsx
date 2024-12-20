@@ -35,7 +35,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 				session: { isAuthenticated, isLoading, userId },
 			}}
 		>
-			{children}
+			{isLoading ? null : children}
 		</AuthContext.Provider>
 	);
 }
