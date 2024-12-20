@@ -35,7 +35,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 				session: { isAuthenticated, isLoading, userId, setAccessToken, setUserId },
 			}}
 		>
-			{isLoading ? null : children}
+			{isLoading ? <div className="flex h-screen items-center justify-center text-2xl">Loading...</div> : children}
 		</AuthContext.Provider>
 	);
 }
