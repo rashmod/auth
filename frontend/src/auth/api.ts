@@ -12,18 +12,12 @@ export async function register({
 	name: string;
 	email: string;
 	password: string;
-}): Promise<{ user: { id: string }; accessToken: string }> {
+}): Promise<LoginResponse> {
 	const response = await api.post('/register', { name, email, password });
 	return response.data;
 }
 
-export async function login({
-	email,
-	password,
-}: {
-	email: string;
-	password: string;
-}): Promise<{ user: { id: string }; accessToken: string }> {
+export async function login({ email, password }: { email: string; password: string }): Promise<LoginResponse> {
 	const response = await api.post('/login', { email, password });
 	return response.data;
 }
@@ -33,7 +27,9 @@ export async function logout() {
 	return response.data;
 }
 
-export async function refresh(): Promise<{ user: { id: string }; accessToken: string }> {
+export async function refresh(): Promise<LoginResponse> {
 	const response = await api.get('/refresh-token');
 	return response.data;
 }
+
+type LoginResponse = { data: { user: { id: string }; accessToken: string } };

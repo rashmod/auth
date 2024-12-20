@@ -11,7 +11,7 @@ export default function useRefreshToken({
 }) {
 	return useMutation({
 		mutationFn: refresh,
-		onSuccess: (data) => {
+		onSuccess: ({ data }) => {
 			setAccessToken(data.accessToken);
 			setUserId(data.user.id);
 		},

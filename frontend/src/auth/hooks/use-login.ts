@@ -11,7 +11,7 @@ export default function useLogin({
 }) {
 	return useMutation({
 		mutationFn: (...input: Parameters<typeof login>) => login(...input),
-		onSuccess: (data) => {
+		onSuccess: ({ data }) => {
 			setAccessToken(data.accessToken);
 			setUserId(data.user.id);
 		},

@@ -23,7 +23,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 		setupAxiosInterceptor(setAccessToken);
 	}, []);
 
-	const isAuthenticated = accessToken !== null;
+	const isAuthenticated = !!accessToken;
 	const isLoading = refreshing || refreshToken.isPending;
 
 	return (

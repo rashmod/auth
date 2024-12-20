@@ -11,7 +11,7 @@ export default function useRegister({
 }) {
 	return useMutation({
 		mutationFn: (...input: Parameters<typeof register>) => register(...input),
-		onSuccess: (data) => {
+		onSuccess: ({ data }) => {
 			setAccessToken(data.accessToken);
 			setUserId(data.user.id);
 		},
