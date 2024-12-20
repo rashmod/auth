@@ -79,14 +79,10 @@ export default class AuthController {
 
 	public googleCallback = async (req: Request, res: Response) => {
 		const user = req.user as { id: string; name: string; email: string };
-		const { accessToken, refreshToken } = AuthService.signTokens(user.id);
+		const { refreshToken } = AuthService.signTokens(user.id);
 
 		AuthService.setRefreshCookie(res, refreshToken, 'default');
 
-		const params = new URLSearchParams();
-		params.set('accessToken', accessToken);
-		params.set('id', user.id);
-
-		res.redirect(`${env.CLIENT_URL}/google?${params.toString()}`);
+		res.redirect(env.CLIENT_URL);
 	};
 }
