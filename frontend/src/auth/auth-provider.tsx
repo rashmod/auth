@@ -26,6 +26,15 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 	const isAuthenticated = !!accessToken;
 	const isLoading = refreshing || refreshToken.isPending;
 
+	console.log({
+		userId,
+		accessToken,
+		refreshing,
+		refreshTokenPending: refreshToken.isPending,
+		isAuthenticated,
+		isLoading,
+	});
+
 	return (
 		<AuthContext.Provider
 			value={{
