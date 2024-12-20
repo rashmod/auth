@@ -54,13 +54,13 @@ export default class AuthController {
 	public refresh = async (req: Request, res: Response) => {
 		const refreshToken: string | undefined = req.cookies['refresh-token'];
 		if (!refreshToken) {
-			res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Unauthorized' });
+			res.status(StatusCodes.BAD_REQUEST).json({ message: 'Unauthorized' });
 			return;
 		}
 
 		const { id } = AuthService.verifyToken(refreshToken, 'refresh') as { id?: string };
 		if (!id) {
-			res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Unauthorized' });
+			res.status(StatusCodes.BAD_REQUEST).json({ message: 'Unauthorized' });
 			return;
 		}
 
