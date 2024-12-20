@@ -10,6 +10,7 @@ import { PasswordInput } from '@/components/custom/password-input';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import env from '@/config/env';
 
 export const Route = createFileRoute('/register')({
 	component: Register,
@@ -130,6 +131,10 @@ function Register() {
 
 							<Button type="submit" className="w-full">
 								Submit
+							</Button>
+
+							<Button type="button" className="w-full" variant="secondary">
+								<Link to={`${env.VITE_BACKEND_API_URL}/auth/google`}>Register with Google</Link>
 							</Button>
 						</form>
 					</Form>
