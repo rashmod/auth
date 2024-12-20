@@ -52,23 +52,28 @@ export default class AuthController {
 	};
 
 	public refresh = async (req: Request, res: Response) => {
+		console.log('refresh token endpoint');
+		console.log(req.cookies);
 		const refreshToken: string | undefined = req.cookies['refresh-token'];
 		if (!refreshToken) {
 			res.status(StatusCodes.BAD_REQUEST).json({ message: 'Unauthorized' });
 			return;
 		}
+		console.log('refresh token received');
 
 		const { id } = AuthService.verifyToken(refreshToken, 'refresh') as { id?: string };
 		if (!id) {
 			res.status(StatusCodes.BAD_REQUEST).json({ message: 'Unauthorized' });
 			return;
 		}
+		console.log('refresh token verified');
 
 		const user = await prisma.user.findUnique({ where: { id } });
 		if (!user) {
 			res.status(StatusCodes.NOT_FOUND).json({ message: 'User not found' });
 			return;
 		}
+		console.log('user found', user);
 
 		const { accessToken, refreshToken: newRefreshToken } = AuthService.signTokens(user.id);
 
