@@ -26,12 +26,15 @@ export function setupAxiosInterceptor(setAccessToken: (token: string | null) => 
 
 			try {
 				const res = await refresh();
+				const {
+					data: { accessToken },
+				} = res;
 				console.log(res);
 
-				axiosInstance.defaults.headers.common.Authorization = `Bearer ${res.accessToken}`;
-				setAccessToken(res.accessToken);
+				axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+				setAccessToken(accessToken);
 
-				originalRequest.headers.Authorization = `Bearer ${res.accessToken}`;
+				originalRequest.headers.Authorization = `Bearer ${accessToken}`;
 				return axiosInstance(originalRequest);
 			} catch (refreshError) {
 				setAccessToken(null);
