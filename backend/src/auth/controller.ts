@@ -71,7 +71,7 @@ export default class AuthController {
 
 		const { accessToken, refreshToken: newRefreshToken } = AuthService.signTokens(user.id);
 
-		AuthService.setRefreshCookie(res, newRefreshToken, 'now');
+		AuthService.setRefreshCookie(res, newRefreshToken, 'default');
 
 		res.status(StatusCodes.OK).json({ data: { user, accessToken } });
 	};
