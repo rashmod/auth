@@ -2,6 +2,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
 
+import '@/auth/passport';
 import authRoutes from '@/auth/route';
 import env from '@/config/env';
 import connectDB from '@/db/prisma';

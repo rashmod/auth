@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import AuthService from '@/auth/service';
+import env from '@/config/env';
 import { prisma } from '@/db/prisma';
 
 export default class AuthController {
@@ -74,5 +75,18 @@ export default class AuthController {
 		AuthService.setRefreshCookie(res, newRefreshToken, 'default');
 
 		res.status(StatusCodes.OK).json({ data: { user, accessToken } });
+	};
+
+	public googleCallback = async (req: Request, res: Response) => {
+		const user = req.user as { id: string; name: string; email: string };
+		const { accessToken, refreshToken } = AuthService.signTokens(user.id);
+
+		AuthService.setRefreshCookie(res, refreshToken, 'default');
+
+		const params = new URLSearchParams();
+		params.set('accessToken', accessToken);
+		params.set('id', user.id);
+
+		res.redirect(`${env.CLIENT_URL}/google?${params.toString()}`);
 	};
 }

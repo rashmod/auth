@@ -10,6 +10,9 @@ const schema = z.object({
 	NODE_ENV: z.enum(['development', 'production', 'test']),
 	DATABASE_URL: z.string().trim().min(1),
 
+	GOOGLE_CLIENT_ID: z.string().trim().min(1),
+	GOOGLE_CLIENT_SECRET: z.string().trim().min(1),
+
 	JWT_REFRESH_SECRET: z.string().trim().min(1),
 	JWT_ACCESS_SECRET: z.string().trim().min(1),
 
