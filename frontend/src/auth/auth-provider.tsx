@@ -32,7 +32,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 				register: { action: register.mutate, isLoading: register.isPending, isSuccess: register.isSuccess },
 				login: { action: login.mutate, isLoading: login.isPending, isSuccess: login.isSuccess },
 				logout: logout.mutate,
-				session: { isAuthenticated, isLoading, userId },
+				session: { isAuthenticated, isLoading, userId, setAccessToken, setUserId },
 			}}
 		>
 			{isLoading ? null : children}

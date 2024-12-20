@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as RegisterImport } from './routes/register'
 import { Route as LoginImport } from './routes/login'
+import { Route as GoogleImport } from './routes/google'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthUserImport } from './routes/_auth/user'
@@ -28,6 +29,12 @@ const RegisterRoute = RegisterImport.update({
 const LoginRoute = LoginImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const GoogleRoute = GoogleImport.update({
+  id: '/google',
+  path: '/google',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -64,6 +71,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AuthImport
+      parentRoute: typeof rootRoute
+    }
+    '/google': {
+      id: '/google'
+      path: '/google'
+      fullPath: '/google'
+      preLoaderRoute: typeof GoogleImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -105,6 +119,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthRouteWithChildren
+  '/google': typeof GoogleRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/user': typeof AuthUserRoute
@@ -113,6 +128,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthRouteWithChildren
+  '/google': typeof GoogleRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/user': typeof AuthUserRoute
@@ -122,6 +138,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
+  '/google': typeof GoogleRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/_auth/user': typeof AuthUserRoute
@@ -129,16 +146,24 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/login' | '/register' | '/user'
+  fullPaths: '/' | '' | '/google' | '/login' | '/register' | '/user'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/login' | '/register' | '/user'
-  id: '__root__' | '/' | '/_auth' | '/login' | '/register' | '/_auth/user'
+  to: '/' | '' | '/google' | '/login' | '/register' | '/user'
+  id:
+    | '__root__'
+    | '/'
+    | '/_auth'
+    | '/google'
+    | '/login'
+    | '/register'
+    | '/_auth/user'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRouteWithChildren
+  GoogleRoute: typeof GoogleRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
 }
@@ -146,6 +171,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
+  GoogleRoute: GoogleRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
 }
@@ -162,6 +188,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/_auth",
+        "/google",
         "/login",
         "/register"
       ]
@@ -174,6 +201,9 @@ export const routeTree = rootRoute
       "children": [
         "/_auth/user"
       ]
+    },
+    "/google": {
+      "filePath": "google.tsx"
     },
     "/login": {
       "filePath": "login.tsx"
