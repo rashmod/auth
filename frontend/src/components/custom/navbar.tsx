@@ -33,6 +33,13 @@ export default function Navbar() {
 							Home
 						</Button>
 					</Link>
+					<LoggedIn>
+						<Link to="/user" className="[&.active>*]:font-bold">
+							<Button variant="link" size="sm">
+								User
+							</Button>
+						</Link>
+					</LoggedIn>
 					<LoggedOut>
 						<Link to="/login" className="[&.active>*]:font-bold">
 							<Button variant="link" size="sm">
