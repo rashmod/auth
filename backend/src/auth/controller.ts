@@ -83,6 +83,6 @@ export default class AuthController {
 
 		AuthService.setRefreshCookie(res, refreshToken, 'default');
 
-		res.redirect(env.CLIENT_URL);
+		res.redirect(`${env.CLIENT_URL}/google`);
 	};
 }
